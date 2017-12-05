@@ -14,12 +14,12 @@ void shiftWrite(String message) {
     }
     Serial.write(message[i]);
   }
-  Serial.println();
+  Serial.write('\n');
 }
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Starting!");
+//  Serial.println("Starting!");
   gps.begin(115200);
 }
 
@@ -56,6 +56,11 @@ void loop() {
       msg_index++;
     }
   }
+
+//  String msg = "$GPGGA,184353.07,1929.045,S,02410.506,E,1,04,2.6,100.00,M,-33.9,M,,0000*6D";
+//  shiftWrite(msg);
+  //Serial.println(msg);
+//  delay(1000);
 }
 
 
