@@ -2,7 +2,7 @@
 //ALTSOFSERIAL RX IS PIN 8
 #include <SoftwareSerial.h>
 
-#define TRANSMIT_MODE 2 // Use mode number from below
+#define TRANSMIT_MODE 1 // Use mode number from below
 
 // Transmit modes
 #define OFFLINE_TEST 0  // Fake NMEA sentences
@@ -49,8 +49,10 @@ void loop() {
 #endif /* TRANSMIT_MODE == OFFLINE_TEST */
 
 #if TRANSMIT_MODE == NO_GPS_TEST
-  // TODO: Add millis stuff
-  shiftWrite("BS");
+  unsigned long time;
+  time = millis();
+  shiftWrite("Time: " + String(time));    //prints time since program started
+  delay(200);          // wait 200ms to send another packet of data
 #endif /* TRANSMIT_MODE == NO_GPS_TEST */
   
 #if TRANSMIT_MODE == FULL_MODE
