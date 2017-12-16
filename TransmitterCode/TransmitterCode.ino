@@ -2,6 +2,8 @@
 //ALTSOFSERIAL RX IS PIN 8
 #include <SoftwareSerial.h>
 
+#define OFFLINE_TEST 0
+
 SoftwareSerial gps(4,3);
 
 void shiftWrite(String message) {
@@ -12,6 +14,7 @@ void shiftWrite(String message) {
     if (message[i] == ']') {
       sendData = false;
     }
+
     Serial.write(message[i]);
   }
   Serial.write('\n');
@@ -30,6 +33,15 @@ char msg[256];
 int msg_index = 0;
 
 void loop() {
+#if OFFLINE_TEST
+  String msg0 = "$GPGGA,184353.07,1929.045,S,02410.506,E,1,04,2.6,100.00,M,-33.9,M,,0000*6D";
+  shiftWrite(msg0);
+  delay(1000);
+
+  String msg1 = "$GPGGA,123519,4807.038,N,01131.000,E,1,08,0.9,545.4,M,46.9,M,,*47";
+  shiftWrite(msg1);
+  delay(1000);
+#else
   gps.listen();
   if (gps.available()) {
     // Read data
@@ -56,11 +68,5 @@ void loop() {
       msg_index++;
     }
   }
-
-//  String msg = "$GPGGA,184353.07,1929.045,S,02410.506,E,1,04,2.6,100.00,M,-33.9,M,,0000*6D";
-//  shiftWrite(msg);
-  //Serial.println(msg);
-//  delay(1000);
+#endif /* OFFLINE_TEST */
 }
-
-
