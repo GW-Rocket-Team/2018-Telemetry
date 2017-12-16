@@ -2,7 +2,12 @@
 //ALTSOFSERIAL RX IS PIN 8
 #include <SoftwareSerial.h>
 
-#define OFFLINE_TEST // Comment out if not using offline test
+#define TRANSMIT_MODE 2 // Comment out if not using offline test
+
+// Transmit modes
+#define OFFLINE_TEST 0
+#define NO_GPS_TEST  1
+#define FULL_MODE    2
 
 SoftwareSerial gps(4,3);
 
@@ -33,7 +38,7 @@ char msg[256];
 int msg_index = 0;
 
 void loop() {
-#if defined(OFFLINE_TEST)
+#if TRANSMIT_MODE == OFFLINE_TEST
   String msg0 = "$GPGGA,184353.07,1929.045,S,02410.506,E,1,04,2.6,100.00,M,-33.9,M,,0000*6D";
   shiftWrite(msg0);
   delay(1000);
@@ -41,7 +46,14 @@ void loop() {
   String msg1 = "$GPGGA,123519,4807.038,N,01131.000,E,1,08,0.9,545.4,M,46.9,M,,*47";
   shiftWrite(msg1);
   delay(1000);
-#else
+#endif /* TRANSMIT_MODE == OFFLINE_TEST */
+
+#if TRANSMIT_MODE == NO_GPS_TEST
+  // TODO: Add millis stuff
+  shiftWrite("BS");
+#endif /* TRANSMIT_MODE == NO_GPS_TEST */
+  
+#if TRANSMIT_MODE == FULL_MODE
   gps.listen();
   if (gps.available()) {
     // Read data
@@ -68,5 +80,5 @@ void loop() {
       msg_index++;
     }
   }
-#endif /* OFFLINE_TEST */
+#endif /* TRANSMIT_MODE == FULL_MODE */
 }
