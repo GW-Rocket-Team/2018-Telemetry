@@ -2,12 +2,12 @@
 //ALTSOFSERIAL RX IS PIN 8
 #include <SoftwareSerial.h>
 
-#define TRANSMIT_MODE 2 // Comment out if not using offline test
+#define TRANSMIT_MODE 2 // Use mode number from below
 
 // Transmit modes
-#define OFFLINE_TEST 0
-#define NO_GPS_TEST  1
-#define FULL_MODE    2
+#define OFFLINE_TEST 0  // Fake NMEA sentences
+#define NO_GPS_TEST  1  // Sends just millis
+#define FULL_MODE    2  // Full run mode for the telemetry
 
 SoftwareSerial gps(4,3);
 
