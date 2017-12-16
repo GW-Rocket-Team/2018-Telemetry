@@ -2,7 +2,7 @@
 //ALTSOFSERIAL RX IS PIN 8
 #include <SoftwareSerial.h>
 
-#define OFFLINE_TEST 0
+#define OFFLINE_TEST // Comment out if not using offline test
 
 SoftwareSerial gps(4,3);
 
@@ -33,7 +33,7 @@ char msg[256];
 int msg_index = 0;
 
 void loop() {
-#if OFFLINE_TEST
+#if defined(OFFLINE_TEST)
   String msg0 = "$GPGGA,184353.07,1929.045,S,02410.506,E,1,04,2.6,100.00,M,-33.9,M,,0000*6D";
   shiftWrite(msg0);
   delay(1000);
